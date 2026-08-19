@@ -91,6 +91,15 @@
     .construction-type-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
     .typology-other-input{grid-column:1/-1;margin-top:2px;min-height:34px!important;font-size:12px!important}
     .selection-note{font-size:10px;color:#68786f;margin-top:-2px}
+    /* Opciones de selección visibles: el <select> se conserva internamente para no alterar los datos ni la lógica existente. */
+    select.selection-source{position:absolute!important;width:1px!important;height:1px!important;min-height:0!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;opacity:0!important;pointer-events:none!important}
+    .select-choice-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:6px;width:100%;margin-top:2px}
+    .select-choice-list.compact{display:flex;flex-wrap:wrap;gap:6px}
+    .select-choice-option{display:flex;align-items:center;justify-content:flex-start;min-height:34px;padding:6px 8px;border:1px solid #b8cbc1;border-radius:9px;background:#fbfdfc;color:#2f5141;font-size:11px;font-weight:700;line-height:1.2;text-align:left;white-space:normal;cursor:pointer;box-shadow:none}
+    .select-choice-list.compact .select-choice-option{flex:1 1 72px;min-width:0}
+    .select-choice-option:hover{border-color:#6eaa88;background:#f3faf6}
+    .select-choice-option.is-selected,.select-choice-option[aria-pressed="true"]{border-color:#17633d;background:#e5f5ec;color:#155a3a;box-shadow:0 0 0 2px rgba(23,99,61,.10)}
+    .select-choice-option:disabled{opacity:.5;cursor:not-allowed}
     @media(max-width:1000px){.construction-type-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
     @media(max-width:760px){.construction-type-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.choice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.choice-card{min-height:40px;padding:6px}.choice-card small{font-size:9.5px}}
     .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
@@ -439,7 +448,7 @@ select[data-c-key="quantityUnit"]{display:none!important}
 <div class="layout">
 <nav id="desktopNav">
   <div class="nav-title">Expediente de campo</div>
-  <a class="nav-btn active" href="#database" data-target="database"><span class="nav-num">1</span> Base local</a>
+  <a class="nav-btn active" href="#database" data-target="database"><span class="nav-num">1</span> Trámites de Fiscalización</a>
   <a class="nav-btn" href="#general" data-target="general"><span class="nav-num">2</span> Expediente</a>
   <a class="nav-btn" href="#terrain" data-target="terrain"><span class="nav-num">3</span> Terreno y entorno</a>
   <a class="nav-btn" href="#construction" data-target="construction"><span class="nav-num">4</span> Construcciones</a>
@@ -451,7 +460,7 @@ select[data-c-key="quantityUnit"]{display:none!important}
 </nav>
 <main>
   <section class="view active" id="view-database">
-    <div class="section-head"><div><h2>Base local</h2><div class="help"><b>Expedientes activos en este dispositivo.</b> Cuando una inspección pasa a Gestión se oculta de esta lista mediante traslado lógico, pero permanece íntegra en IndexedDB.</div></div><div class="actions base-local-actions"><button class="btn primary compact-control" id="newBtn">＋ Crear nuevo expediente</button><button class="btn compact-control" id="refreshCasesBtn">Actualizar lista</button><button class="btn compact-control" id="baseRecoveryBtn">Recuperar eliminados</button></div></div>
+    <div class="section-head"><div><h2>Trámites de Fiscalización</h2><div class="help"><b>Activos = expedientes que todavía no han sido trasladados a Gestión.</b> Al pasar a Gestión dejan de mostrarse en esta lista, pero permanecen íntegros en IndexedDB.</div></div><div class="actions base-local-actions"><button class="btn primary compact-control" id="newBtn">＋ Crear nuevo expediente</button><button class="btn compact-control" id="refreshCasesBtn">Actualizar lista</button><button class="btn compact-control" id="baseRecoveryBtn">Recuperar eliminados</button></div></div>
     <div class="workflow-grid">
       <div class="workflow-panel">
         <h3>Importar expedientes desde Excel</h3>
@@ -473,7 +482,7 @@ select[data-c-key="quantityUnit"]{display:none!important}
       </div>
 
     </div>
-    <div class="notice warn">La base local no sustituye el repositorio institucional. Exporte respaldos y aplique las políticas de seguridad, protección de datos y custodia documental.</div>
+    <div class="notice warn">Trámites de Fiscalización no sustituye el repositorio institucional. Exporte respaldos y aplique las políticas de seguridad, protección de datos y custodia documental.</div>
     <section class="base-local-filter-panel" aria-labelledby="baseLocalFilterTitle">
       <h3 id="baseLocalFilterTitle">Buscar y filtrar expedientes</h3>
       <label class="field"><span>Buscar por folio, trámite, finca o lugar</span><input id="baseLocalSearch" type="search" autocomplete="off" placeholder="Escriba folio, trámite, finca o lugar"></label>
@@ -500,7 +509,7 @@ select[data-c-key="quantityUnit"]{display:none!important}
     <div class="card">
       <h3>Identificación del trámite y del inmueble</h3>
       <div class="grid">
-        <label class="field col-3"><span class="required">Número de expediente / trámite</span><input data-path="general.tramite" id="tramiteLookup" placeholder="Ej. BI-2026-0001"><small class="help">Al salir del campo, busca un expediente existente en la base local y completa sus datos.</small></label>
+        <label class="field col-3"><span class="required">Número de expediente / trámite</span><input data-path="general.tramite" id="tramiteLookup" placeholder="Ej. BI-2026-0001"><small class="help">Al salir del campo, busca un expediente existente en Trámites de Fiscalización y completa sus datos.</small></label>
         <label class="field col-3"><span>Número de finca registral</span><input data-path="general.finca" placeholder="Provincia-finca-derecho"></label>
         <label class="field col-3"><span>Número de plano catastrado</span><input data-path="general.plano" placeholder="Ej. H-1234567-2024"></label>
         <label class="field col-3"><span>Área según registro (m²)</span><input data-path="general.registryArea" inputmode="decimal" type="number" min="0" step="0.01" placeholder="Dato registral; independiente de construcciones"></label>
@@ -726,13 +735,13 @@ select[data-c-key="quantityUnit"]{display:none!important}
           <div class="annex-photo-grid" id="terrainAnnexPreview"></div>
           <div class="annex-actions"><label class="btn primary">🖼 Cargar fotografías<input id="terrainAnnexInput" type="file" accept="image/*" multiple hidden></label></div>
         </section>
-        <section class="annex-upload-zone" data-annex-zone="construction">
+        <section class="annex-upload-zone" data-annex-zone="construction" hidden>
           <div class="annex-upload-head"><div><b>Construcciones</b><small>Seleccione el número de construcción objetado</small></div><span class="annex-status" id="constructionAnnexStatus">0 fotografías</span></div>
           <label class="field"><span>Construcción asociada</span><select id="constructionAnnexConstructionId"><option value="">Seleccione construcción</option></select></label>
           <div class="annex-photo-grid" id="constructionAnnexPreview"></div>
           <div class="annex-actions"><label class="btn primary">🖼 Cargar fotografías<input id="constructionAnnexInput" type="file" accept="image/*" multiple hidden></label></div>
         </section>
-        <section class="annex-upload-zone" data-annex-zone="agro">
+        <section class="annex-upload-zone" data-annex-zone="agro" hidden>
           <div class="annex-upload-head"><div><b>Zona / uso agropecuario</b><small>Actividad, área o condición agropecuaria objetada</small></div><span class="annex-status" id="agroAnnexStatus">0 fotografías</span></div>
           <div class="annex-photo-grid" id="agroAnnexPreview"></div>
           <div class="annex-actions"><label class="btn primary">🖼 Cargar fotografías<input id="agroAnnexInput" type="file" accept="image/*" multiple hidden></label></div>
@@ -814,7 +823,7 @@ select[data-c-key="quantityUnit"]{display:none!important}
 </main>
 </div>
 <div class="mobile-nav" id="mobileNav">
-  <a class="active" href="#database" data-target="database">💾<br>Base</a><a href="#general" data-target="general">📁<br>Expediente</a><a href="#terrain" data-target="terrain">🌱<br>Terreno</a><a href="#construction" data-target="construction">🏠<br>Construcción</a><a href="#photos" data-target="photos">📷<br>Fotos</a><a href="#fiscalization" data-target="fiscalization">✅<br>Fiscalización</a><a href="#report" data-target="report">📄<br>Informe</a><a href="#management" data-target="management">📋<br>Gestión</a>
+  <a class="active" href="#database" data-target="database">💾<br>Trámites</a><a href="#general" data-target="general">📁<br>Expediente</a><a href="#terrain" data-target="terrain">🌱<br>Terreno</a><a href="#construction" data-target="construction">🏠<br>Construcción</a><a href="#photos" data-target="photos">📷<br>Fotos</a><a href="#fiscalization" data-target="fiscalization">✅<br>Fiscalización</a><a href="#report" data-target="report">📄<br>Informe</a><a href="#management" data-target="management">📋<br>Gestión</a>
 </div>
 <div class="modal-backdrop hidden" id="pdfMatchModal" role="dialog" aria-modal="true" aria-labelledby="pdfMatchTitle">
   <div class="modal-card pdf-match-card">
@@ -1145,6 +1154,45 @@ function handleBoundInput(e){const el=e.target;ensureCaptureStarted();if(el.data
 
 document.addEventListener('input',handleBoundInput);document.addEventListener('change',handleBoundInput);
 
+// Modo de selección visible solicitado: conserva cada <select> como fuente de datos y
+// muestra sus opciones como controles seleccionables, sin cambiar los valores guardados.
+let selectChoiceSerial=0;
+function selectionControlFor(select){return select?.nextElementSibling?.classList?.contains('select-choice-list')?select.nextElementSibling:null}
+function syncSelectionControl(select){
+  const host=selectionControlFor(select);if(!host)return;
+  [...host.querySelectorAll('[data-select-choice-index]')].forEach(btn=>{
+    const option=select.options[Number(btn.dataset.selectChoiceIndex)],selected=Boolean(option?.selected);
+    btn.classList.toggle('is-selected',selected);btn.setAttribute('aria-pressed',selected?'true':'false');btn.disabled=Boolean(select.disabled||option?.disabled);
+  });
+}
+function enhanceSelectToSelection(select){
+  if(!(select instanceof HTMLSelectElement)||select.matches('[data-c-key="quantityUnit"]'))return;
+  select.classList.add('selection-source');
+  let host=selectionControlFor(select);
+  if(!host){host=document.createElement('div');host.className='select-choice-list';host.dataset.selectChoiceFor=select.id||`select-${++selectChoiceSerial}`;select.insertAdjacentElement('afterend',host)}
+  const options=[...select.options];host.classList.toggle('compact',options.length<=4);host.innerHTML='';
+  options.forEach((option,index)=>{
+    const btn=document.createElement('button');btn.type='button';btn.className='select-choice-option';btn.dataset.selectChoiceIndex=String(index);btn.textContent=option.textContent.trim()||option.value||'Seleccione';btn.setAttribute('aria-pressed',option.selected?'true':'false');btn.disabled=Boolean(select.disabled||option.disabled);
+    btn.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();if(btn.disabled)return;select.selectedIndex=index;select.dispatchEvent(new Event('change',{bubbles:true}));syncSelectionControl(select)});
+    host.appendChild(btn);
+  });
+  syncSelectionControl(select);
+}
+function refreshSelectionControls(root=document){
+  if(root instanceof HTMLSelectElement)enhanceSelectToSelection(root);
+  else root?.querySelectorAll?.('select').forEach(enhanceSelectToSelection);
+}
+document.addEventListener('change',event=>{if(event.target instanceof HTMLSelectElement)syncSelectionControl(event.target)});
+const selectChoiceObserver=new MutationObserver(mutations=>{
+  const pending=new Set();
+  for(const mutation of mutations){
+    if(mutation.target instanceof HTMLSelectElement)pending.add(mutation.target);
+    for(const node of mutation.addedNodes||[]){if(node instanceof HTMLSelectElement)pending.add(node);else node.querySelectorAll?.('select').forEach(select=>pending.add(select))}
+  }
+  pending.forEach(enhanceSelectToSelection);
+});
+selectChoiceObserver.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['disabled']});
+
 function showView(name,updateHash=true){
   const valid=new Set(['database','general','terrain','construction','photos','fiscalization','report','management']);
   if(!valid.has(name))name='database';
@@ -1172,7 +1220,7 @@ $('#waterAffectedSelect')?.addEventListener('change',()=>{updateWaterDetails();m
 const CONSTRUCTION_FISCAL_KEYS=['constructionTypesMatch','constructionAreasMatch','constructionCountMatch','constructionValuesMatch'];
 function hasRegisteredConstructions(c=state.current){return Boolean(c&&Array.isArray(c.constructions)&&c.constructions.length)}
 function enforceConstructionFiscalizationApplicability(c=state.current){if(!c?.report?.fiscalization)return false;const applies=hasRegisteredConstructions(c);if(!applies)CONSTRUCTION_FISCAL_KEYS.forEach(k=>c.report.fiscalization[k]='No aplica');return applies}
-function renderAll(){enforceConstructionFiscalizationApplicability();bindStaticFields();updateCaptureStartedDisplay();updateWaterDetails();$('#caseCode').textContent=state.current.general.tramite||`BORRADOR ${state.current.id.slice(0,8).toUpperCase()}`;renderConstructions();refreshAssociationSelectors();renderPhotos();renderPdfDocuments();refreshDerived();updateLocationStatus();renderAudit();renderSignatures();renderValuationAnnex();renderWorkflow();}
+function renderAll(){enforceConstructionFiscalizationApplicability();bindStaticFields();updateCaptureStartedDisplay();updateWaterDetails();$('#caseCode').textContent=state.current.general.tramite||`BORRADOR ${state.current.id.slice(0,8).toUpperCase()}`;renderConstructions();refreshAssociationSelectors();renderPhotos();renderPdfDocuments();refreshDerived();updateLocationStatus();renderAudit();renderSignatures();renderValuationAnnex();renderWorkflow();refreshSelectionControls();}
 function totalConstructionArea(){return state.current.constructions.filter(c=>c.quantityUnit==='m²').reduce((sum,c)=>sum+num(c.area),0)}
 function totalConstructionLinear(){return state.current.constructions.reduce((sum,c)=>sum+(c.quantityUnit==='ML'?num(c.area):c.quantityUnit==='km'?num(c.area)*1000:0),0)}
 function totalConstructionUnits(){return state.current.constructions.reduce((sum,c)=>sum+(c.quantityUnit==='unidad'?Math.max(1,Math.round(num(c.area)||1)):1),0)}
@@ -1188,6 +1236,7 @@ function refreshDerived(){
   updateFiscalizationUI();
   
   if(typeof refreshEmailSendUi==='function')refreshEmailSendUi();
+  refreshSelectionControls();
 }
 
 function renderConstructions(){const host=$('#constructionList');host.innerHTML='';if(!state.current.constructions.length){host.innerHTML='<div class="card"><div class="notice warn">No hay unidades registradas. Agregue cada construcción, instalación, cerca, tapia, verja u obra por separado, o documente que se trata de un lote sin construcciones.</div></div>';refreshAssociationSelectors();return}
@@ -1228,7 +1277,7 @@ const QUICK_TYPOLOGIES=[
   {value:'Bodegas',label:'Bodega'},
   {value:'Galerones',label:'Galerón'}
 ];
-function cTypologyFamily(c){const quickValues=QUICK_TYPOLOGIES.map(x=>x.value),isQuick=quickValues.includes(c.typologyFamily),otherSelected=Boolean(c.typologyCustomMode)||(!isQuick&&Boolean(c.typologyFamily));return `<div class="choice-field col-12 construction-typology-choice"><span class="choice-label">Seleccione tipo de construcción <small>5 referencias comunes + Otro</small></span><div class="choice-grid construction-type-grid" role="radiogroup" aria-label="Selección del tipo de construcción">${QUICK_TYPOLOGIES.map(x=>`<label class="choice-card"><input type="radio" name="typology-${esc(c.id)}" data-c-quick-typology value="${esc(x.value)}" ${c.typologyFamily===x.value?'checked':''}><span><small>${esc(x.label)}</small></span></label>`).join('')}<label class="choice-card"><input type="radio" name="typology-${esc(c.id)}" data-c-quick-typology value="__OTHER__" ${otherSelected?'checked':''}><span><small>Otro</small></span></label></div>${otherSelected?`<input class="typology-other-input" data-c-typology-other value="${esc(c.typologyFamily||'')}" placeholder="Escriba el tipo de construcción">`:''}<div class="selection-note">Estas opciones reemplazan la lista desplegable para el tipo de construcción. Los demás datos técnicos conservan sus catálogos.</div></div>`}
+function cTypologyFamily(c){const quickValues=QUICK_TYPOLOGIES.map(x=>x.value),isQuick=quickValues.includes(c.typologyFamily),otherSelected=Boolean(c.typologyCustomMode)||(!isQuick&&Boolean(c.typologyFamily));return `<div class="choice-field col-12 construction-typology-choice"><span class="choice-label">Seleccione tipo de construcción <small>5 referencias comunes + Otro</small></span><div class="choice-grid construction-type-grid" role="radiogroup" aria-label="Selección del tipo de construcción">${QUICK_TYPOLOGIES.map(x=>`<label class="choice-card"><input type="radio" name="typology-${esc(c.id)}" data-c-quick-typology value="${esc(x.value)}" ${c.typologyFamily===x.value?'checked':''}><span><small>${esc(x.label)}</small></span></label>`).join('')}<label class="choice-card"><input type="radio" name="typology-${esc(c.id)}" data-c-quick-typology value="__OTHER__" ${otherSelected?'checked':''}><span><small>Otro</small></span></label></div>${otherSelected?`<input class="typology-other-input" data-c-typology-other value="${esc(c.typologyFamily||'')}" placeholder="Escriba el tipo de construcción">`:''}<div class="selection-note">Las opciones se muestran en modo de selección visible.</div></div>`}
 function applyTypologyFamilyDefaults(c){const familyDefaults=[['Cercas','Cerca','ML'],['Tapias','Tapia','ML'],['Verjas','Verja','ML'],['Muros','Muro','ML'],['Losas','Losa','m²'],['Obras exteriores','Obra exterior','m²'],['Obras viales','Obra vial complementaria','ML'],['Rampas','Rampa','m²'],['Portones','Portón','unidad'],['Postes','Poste','unidad']];const fd=familyDefaults.find(x=>(c.typologyFamily||'').includes(x[0]));if(fd){c.category=fd[1];c.quantityUnit=fd[2]}else{c.category='Construcción';c.quantityUnit='m²'}c.areaSource='croquis';applyLinearDefaults(c);syncConstructionAreaFromSketch(c,{forceArea:true})}
 function applyLinearDefaults(c){if(!isLinearUnit(c))return;c.walls=c.walls||'No aplica';c.wallFinish=c.wallFinish||'No aplica';if(!c.linearDescription)c.linearDescription={Cerca:'Cerca',Tapia:'Tapia',Verja:'Verja',Muro:'Muro'}[c.category]||''}
 function handleConstructionInput(e){const card=e.currentTarget;const c=state.current.constructions.find(x=>x.id===card.dataset.id);const key=e.target.dataset.cKey;if(!c||!key)return;c[key]=e.target.value;if(key==='area'&&c.quantityUnit==='m²')c.areaSource='manual';if(key==='category'){applyLinearDefaults(c);markDirty();renderConstructions();return}if(key==='typologyFamily'){applyTypologyFamilyDefaults(c);markDirty();renderConstructions();return}if(key==='quantityUnit'){c.areaSource='croquis';if(isLinearUnit(c)){applyLinearDefaults(c);prepareLinearSketch(c)}else if(activePolygon(normalizeManualSketch(c.handSketch)).linear)c.handSketch=blankManualSketch();syncConstructionAreaFromSketch(c,{forceArea:true});markDirty();renderConstructions();return}if(key==='zocalo'){markDirty();renderConstructions();return}if(e.target.dataset.otherKey){markDirty();renderConstructions();return}markDirty();if(key==='name'){const title=card.querySelector('.construction-title-input');if(title&&title!==e.target)title.value=c.name||''}if(key==='linearDescription'||key==='linearDescriptionOther')renderConstructions();refreshDerived()}
@@ -1488,7 +1537,8 @@ function refreshAnnexConstructionSelector(){const select=$('#constructionAnnexCo
 async function processValuationAnnexImages(input,kind){const files=Array.from(input.files||[]);if(!files.length)return;const annex=valuationAnnexState(),key=annexPhotoKey(kind),constructionId=kind==='construction'?$('#constructionAnnexConstructionId')?.value||'':'';if(kind==='construction'&&!constructionId){input.value='';return toast('Seleccione el número de construcción antes de cargar las fotografías.')}const construction=state.current.constructions.find(c=>c.id===constructionId);try{for(const file of files){const cmp=await compressImage(file,2000,.86),dataUrl=await blobToDataUrl(cmp.blob);annex[key].push({id:uid(),dataUrl,fileName:file.name||`anexo_${kind}_${Date.now()}.jpg`,capturedAt:new Date().toISOString(),constructionId,constructionName:construction?.name||''})}markDirty();await saveCase(true);renderValuationAnnex();toast(`${files.length} fotografía(s) agregada(s) al anexo`)}catch(error){console.error(error);toast(`No se pudo cargar el anexo: ${error.message||error}`)}finally{input.value=''}}
 function renderAnnexPhotoGroup(kind,photos,required){const preview=$(`#${kind}AnnexPreview`),status=$(`#${kind}AnnexStatus`),zone=$(`[data-annex-zone="${kind}"]`);if(status)status.textContent=`${photos.length} ${photos.length===1?'fotografía':'fotografías'}${required?' · Objeción activa':''}`;if(zone){zone.classList.toggle('is-required',required);zone.classList.toggle('is-optional',!required)}if(!preview)return;preview.innerHTML=photos.length?photos.map((photo,index)=>`<article class="annex-photo-card"><img src="${photo.dataUrl}" alt="Anexo ${esc(kind)} ${index+1}"><div class="body"><b>${kind==='construction'?esc(photo.constructionName||'Construcción sin identificar'):kind==='agro'?'Zona / uso agropecuario':'Terreno'}</b><small>${esc(photo.fileName||`Fotografía ${index+1}`)}</small><button class="btn danger small" type="button" data-remove-annex="${esc(kind)}" data-annex-photo-id="${esc(photo.id)}">Eliminar</button></div></article>`).join(''):`<div class="annex-empty">${required?'Objeción activa: puede cargar una o más fotografías.':'Sin fotografías cargadas.'}</div>`}
 async function removeAnnexPhoto(kind,id){if(!confirm('La fotografía se podrá recuperar desde una copia del expediente. ¿Desea retirarla?'))return;try{await backupCaseToRecovery(state.current,'Antes de retirar fotografía del anexo');const annex=valuationAnnexState(),key=annexPhotoKey(kind);annex[key]=annex[key].filter(photo=>photo.id!==id);markDirty();await saveCase(true);await renderRecoveryPanel('baseRecoveryPanel');await renderRecoveryPanel('managementRecoveryPanel');renderValuationAnnex();toast('Fotografía retirada con respaldo recuperable.')}catch(error){console.error(error);toast(`No se retiró la fotografía porque el respaldo falló: ${error.message}`)}}
-function renderValuationAnnex(){if(!state.current)return;const annex=valuationAnnexState(),req=valuationAnnexRequirements();refreshAnnexConstructionSelector();for(const kind of ['terrain','construction','agro'])renderAnnexPhotoGroup(kind,annex[annexPhotoKey(kind)],Boolean(req[kind]));const notice=$('#valuationAnnexNotice'),required=Object.entries(req).filter(([,value])=>value).map(([kind])=>({terrain:'terreno',construction:'construcciones',agro:'zona/uso agropecuario'}[kind])),stored=['terrain','construction','agro'].reduce((total,kind)=>total+annex[annexPhotoKey(kind)].length,0);if(notice)notice.textContent=required.length?`Objeción activa en ${joinSpanish(required)}. Las fotografías de esos componentes se incorporarán al PDF y Word.`:stored?'Las fotografías permanecen guardadas, pero no se incorporarán al informe mientras no exista una objeción activa.':'Los anexos se habilitan automáticamente cuando un componente se marca como objetado.'}
+function annexAgroApplies(c=state.current){const f=c?.report?.fiscalization||{};return f.agroDeclared==='Sí'||Boolean(f.agroActivity)||['Sí','No'].includes(f.agroActivityVerified)||isAgroObservationCase(c)}
+function renderValuationAnnex(){if(!state.current)return;const annex=valuationAnnexState(),req=valuationAnnexRequirements(),showConstruction=hasRegisteredConstructions(state.current),showAgro=annexAgroApplies(state.current);refreshAnnexConstructionSelector();const terrainZone=$('[data-annex-zone="terrain"]'),constructionZone=$('[data-annex-zone="construction"]'),agroZone=$('[data-annex-zone="agro"]');if(terrainZone)terrainZone.hidden=false;if(constructionZone)constructionZone.hidden=!showConstruction;if(agroZone)agroZone.hidden=!showAgro;for(const kind of ['terrain','construction','agro'])renderAnnexPhotoGroup(kind,annex[annexPhotoKey(kind)],Boolean(req[kind]));const notice=$('#valuationAnnexNotice'),required=Object.entries(req).filter(([,value])=>value).map(([kind])=>({terrain:'terreno',construction:'construcciones',agro:'zona/uso agropecuario'}[kind])),stored=['terrain','construction','agro'].reduce((total,kind)=>total+annex[annexPhotoKey(kind)].length,0);if(notice)notice.textContent=required.length?`Objeción activa en ${joinSpanish(required)}. Las fotografías de esos componentes se incorporarán al PDF y Word.`:stored?'Las fotografías permanecen guardadas, pero no se incorporarán al informe mientras no exista una objeción activa.':'Terreno está disponible siempre. Construcciones y uso agropecuario aparecen únicamente cuando esos detalles existen en el expediente.';refreshSelectionControls($('#valuationAnnexCard'))}
 $('#terrainAnnexInput')?.addEventListener('change',e=>processValuationAnnexImages(e.target,'terrain'));
 $('#constructionAnnexInput')?.addEventListener('change',e=>processValuationAnnexImages(e.target,'construction'));
 $('#agroAnnexInput')?.addEventListener('change',e=>processValuationAnnexImages(e.target,'agro'));
@@ -2053,9 +2103,9 @@ function baseLocalPlaceEntries(cases,districtKey=''){const groups=new Map();for(
 function setBaseLocalSelectOptions(select,entries,allLabel,selected){if(!select)return'';select.innerHTML=`<option value="">${esc(allLabel)}</option>${entries.map(entry=>`<option value="${esc(entry.key)}">${esc(entry.label)}</option>`).join('')}`;const valid=entries.some(entry=>entry.key===selected);select.value=valid?selected:'';return select.value}
 function refreshBaseLocalFilterControls(cases){const search=$('#baseLocalSearch'),district=$('#baseLocalDistrictFilter'),place=$('#baseLocalPlaceFilter'),agroBtn=$('#baseLocalAgroFilter'),agroCount=$('#baseLocalAgroCount');if(search&&search.value!==baseLocalFilterState.query)search.value=baseLocalFilterState.query;const districts=baseLocalDistrictEntries(cases);baseLocalFilterState.district=setBaseLocalSelectOptions(district,districts,'Todos los distritos',baseLocalFilterState.district);const places=baseLocalPlaceEntries(cases,baseLocalFilterState.district);baseLocalFilterState.place=setBaseLocalSelectOptions(place,places,'Todos los lugares',baseLocalFilterState.place);const agroTotal=cases.filter(isAgroObservationCase).length;if(agroCount)agroCount.textContent=String(agroTotal);if(agroBtn){agroBtn.setAttribute('aria-pressed',baseLocalFilterState.agroOnly?'true':'false');agroBtn.disabled=false;agroBtn.title=agroTotal?`Mostrar solo ${agroTotal} expediente(s) con uso agro detectado en observaciones`:'No hay expedientes agro detectados todavía; el filtro permanece disponible.'}}
 function filterBaseLocalCases(cases){const query=normalizeBaseLocalFilterText(baseLocalFilterState.query),district=baseLocalFilterState.district,place=baseLocalFilterState.place;return cases.filter(c=>{if(query&&!baseLocalCaseSearchText(c).includes(query))return false;if(district&&normalizeBaseLocalFilterText(c?.visit?.district||'Sin distrito')!==district)return false;if(place&&canonicalPlaceName(casePlace(c)||'Sin poblado o lugar')!==place)return false;if(baseLocalFilterState.agroOnly&&!isAgroObservationCase(c))return false;return true})}
-function updateBaseLocalFilterStatus(visible,total){const status=$('#baseLocalFilterStatus');if(!status)return;const active=Boolean(normalizeBaseLocalFilterText(baseLocalFilterState.query)||baseLocalFilterState.district||baseLocalFilterState.place||baseLocalFilterState.agroOnly);const agroText=baseLocalFilterState.agroOnly?' Filtro de uso agro activo.':'';status.textContent=active?`Mostrando ${visible} de ${total} expediente(s) según la búsqueda y los filtros seleccionados.${agroText}`:`Mostrando los ${total} expediente(s) activos de Base local.`}
+function updateBaseLocalFilterStatus(visible,total){const status=$('#baseLocalFilterStatus');if(!status)return;const active=Boolean(normalizeBaseLocalFilterText(baseLocalFilterState.query)||baseLocalFilterState.district||baseLocalFilterState.place||baseLocalFilterState.agroOnly);const agroText=baseLocalFilterState.agroOnly?' Filtro de uso agro activo.':'';status.textContent=active?`Mostrando ${visible} de ${total} expediente(s) según la búsqueda y los filtros seleccionados.${agroText}`:`Mostrando los ${total} trámite(s) activos de Fiscalización, sin trasladar a Gestión.`}
 
-async function renderCaseList(){if(!db&&storageMode!=='memory')return;const processHost=$('#caseList'),summary=$('#caseHierarchySummary'),all=(await idbAll(STORE_CASES)).map(normalizeCase).sort(compareCasesByDistrictPlaceDate),localCases=all.filter(c=>c.localBase?.visible!==false&&!managementInspectionCompleted(c)),transferredCases=all.filter(c=>!localCases.some(local=>local.id===c.id)),districts=buildCaseHierarchy(localCases),placeGroupCount=[...districts.values()].reduce((total,district)=>total+district.places.size,0),alarmCount=localCases.filter(c=>caseNeedsAgeAlarm(c)).length;refreshBaseLocalFilterControls(localCases);const visibleCases=filterBaseLocalCases(localCases),emptyMessage=localCases.length?'No hay expedientes que coincidan con la búsqueda o los filtros seleccionados.':'No hay expedientes activos en Base local.';$('#processCaseCount').textContent=visibleCases.length;updateBaseLocalFilterStatus(visibleCases.length,localCases.length);if(summary)summary.innerHTML=`<div><b>${localCases.length}</b><span>en Base local</span></div><div class="summary-process"><b>${localCases.filter(c=>!isCaseClosed(c)).length}</b><span>activos</span></div><div class="summary-completed"><b>${transferredCases.length}</b><span>trasladados a Gestión</span></div><div><b>${districts.size}</b><span>distritos</span></div><div><b>${placeGroupCount}</b><span>grupos de poblado</span></div><div class="summary-alarm"><b>${alarmCount}</b><span>alarmas +1 año</span></div><p>Los trámites que ingresan a <strong>Gestión</strong> dejan de mostrarse aquí mediante un indicador lógico. Sus datos, fotografías, croquis y PDF permanecen en IndexedDB.</p>`;await renderCaseHierarchy(processHost,visibleCases,emptyMessage);if(!localCases.length&&summary&&transferredCases.length)summary.innerHTML+=`<p class="transferred-note">${transferredCases.length} expediente(s) permanecen resguardados y visibles en Gestión.</p>`;await renderManagementList()}
+async function renderCaseList(){if(!db&&storageMode!=='memory')return;const processHost=$('#caseList'),summary=$('#caseHierarchySummary'),all=(await idbAll(STORE_CASES)).map(normalizeCase).sort(compareCasesByDistrictPlaceDate),localCases=all.filter(c=>!managementInspectionCompleted(c)),transferredCases=all.filter(c=>managementInspectionCompleted(c)),districts=buildCaseHierarchy(localCases),placeGroupCount=[...districts.values()].reduce((total,district)=>total+district.places.size,0),alarmCount=localCases.filter(c=>caseNeedsAgeAlarm(c)).length;refreshBaseLocalFilterControls(localCases);const visibleCases=filterBaseLocalCases(localCases),emptyMessage=localCases.length?'No hay expedientes que coincidan con la búsqueda o los filtros seleccionados.':'No hay trámites activos de Fiscalización pendientes de traslado a Gestión.';$('#processCaseCount').textContent=visibleCases.length;updateBaseLocalFilterStatus(visibleCases.length,localCases.length);if(summary)summary.innerHTML=`<div><b>${localCases.length}</b><span>en Trámites de Fiscalización</span></div><div class="summary-process"><b>${localCases.length}</b><span>activos sin trasladar</span></div><div class="summary-completed"><b>${transferredCases.length}</b><span>trasladados a Gestión</span></div><div><b>${districts.size}</b><span>distritos</span></div><div><b>${placeGroupCount}</b><span>grupos de poblado</span></div><div class="summary-alarm"><b>${alarmCount}</b><span>alarmas +1 año</span></div><p>Los trámites que ingresan a <strong>Gestión</strong> dejan de mostrarse aquí mediante un indicador lógico. Sus datos, fotografías, croquis y PDF permanecen en IndexedDB.</p>`;await renderCaseHierarchy(processHost,visibleCases,emptyMessage);if(!localCases.length&&summary&&transferredCases.length)summary.innerHTML+=`<p class="transferred-note">${transferredCases.length} expediente(s) permanecen resguardados y visibles en Gestión.</p>`;await renderManagementList()}
 $('#refreshCasesBtn').addEventListener('click',renderCaseList);
 $('#baseLocalSearch')?.addEventListener('input',event=>{baseLocalFilterState.query=event.target.value;clearTimeout(baseLocalSearchTimer);baseLocalSearchTimer=setTimeout(renderCaseList,120)});
 $('#baseLocalDistrictFilter')?.addEventListener('change',event=>{baseLocalFilterState.district=event.target.value;baseLocalFilterState.place='';renderCaseList()});
@@ -2067,7 +2117,7 @@ async function lookupExistingCaseByTramite(value){
   const all=await idbAll(STORE_CASES);const found=all.find(x=>x.id!==state.current.id&&canonicalCaseKey(x.general?.tramite)===canonicalCaseKey(code));
   if(!found)return false;
   if(!confirm(`Existe el expediente ${code}. ¿Desea cargar sus datos registrados?`))return false;
-  state.current=normalizeCase(found);state.audit=Array.isArray(state.current.repositoryAudit?.items)?state.current.repositoryAudit.items:[];renderAll();showView('general');toast('Datos del inmueble completados desde la base local');return true;
+  state.current=normalizeCase(found);state.audit=Array.isArray(state.current.repositoryAudit?.items)?state.current.repositoryAudit.items:[];renderAll();showView('general');toast('Datos del inmueble completados desde Trámites de Fiscalización');return true;
 }
 document.addEventListener('change',e=>{if(e.target?.id==='tramiteLookup')lookupExistingCaseByTramite(e.target.value)});
 function updateNetwork(){const on=navigator.onLine;$('#netDot').className=`dot ${on?'online':'offline'}`;$('#netText').textContent=on?'Con conexión':'Sin conexión'}
