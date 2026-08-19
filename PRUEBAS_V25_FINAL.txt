@@ -1,40 +1,52 @@
-PRUEBAS DE ACEPTACIÓN — V25.2.0 FINAL CORREGIDA
+PRUEBAS DE ACEPTACIÓN — V25.3.0 FINAL
 
-VALIDACIÓN ESTRUCTURAL
-[OK] JavaScript válido con node --check.
-[OK] 8 vistas únicas: Base local, Expediente, Terreno, Construcciones, Fotografías, Fiscalización, Informe y Gestión.
-[OK] Todos los data-target del menú corresponden a una vista real.
+VALIDACIÓN ESTRUCTURAL — 22/22
+[OK] 8 vistas de aplicación.
 [OK] Sin IDs HTML duplicados.
-[OK] addConstructionBtn y constructionList existen exactamente una vez.
-[OK] manifest.webmanifest válido, versión 25.2.0.
+[OK] Todos los data-target apuntan a una vista real.
+[OK] Un único submitFieldReviewBtn.
+[OK] Tarjeta reportCaseNumber eliminada.
+[OK] Sin indexedDB.deleteDatabase.
+[OK] Sin localStorage.clear.
+[OK] Sin deleteObjectStore.
+[OK] Manifest 25.3.0 válido.
 [OK] Todos los archivos CORE del Service Worker existen.
-[OK] No existen llamadas a indexedDB.deleteDatabase, localStorage.clear ni deleteObjectStore en la aplicación final.
+[OK] Service Worker V25.3.
+[OK] DB_VERSION permanece en 6.
+[OK] Funciones de Gestión masiva presentes.
+[OK] Informe PDF Carta.
+[OK] DOCX Carta.
 
-PRUEBA FUNCIONAL EN NAVEGADOR — 16/16
-[OK] Fallback temporal controlado si IndexedDB no está disponible.
-[OK] APP_VERSION 25.2.0-FINAL-CORREGIDA.
-[OK] 8 módulos renderizados.
-[OK] Vista Construcciones presente.
-[OK] Vista Construcciones abre.
-[OK] Agregar construcción funciona.
-[OK] Tarjeta de construcción se genera.
-[OK] Guardar expediente con construcción funciona.
-[OK] bytesToBase64 operativo.
-[OK] mergeCaseRecords operativo.
-[OK] Retirar unidad constructiva crea respaldo recuperable.
-[OK] Retirar expediente lo elimina solo de la base activa.
-[OK] Restaurar expediente recupera el registro.
-[OK] Restaurar expediente recupera fotografía y PDF.
+PRUEBA FUNCIONAL EN NAVEGADOR — 34/34
+[OK] APP_VERSION 25.3.0-FINAL.
+[OK] DB_VERSION 6.
+[OK] 8 módulos.
+[OK] Identificación redundante del informe eliminada.
+[OK] Un solo Siguiente en Fotografías.
+[OK] Fotografías avanza a Fiscalización.
+[OK] Segundo clic no duplica transición.
+[OK] Expediente finalizado conserva etapa y puede navegar.
+[OK] Construcciones abre.
+[OK] Estado general es select con escala ONT completa.
+[OK] Paredes, techo, estructura de techo, cielo raso, piso e instalación eléctrica son selects con opciones solicitadas.
+[OK] Detalles adicionales es textarea.
+[OK] Botones compactos.
+[OK] Sección de vértices compacta.
+[OK] Textos de importación resumidos.
+[OK] Botones Descargar todos / Cargar todos presentes.
+[OK] Exportación masiva produce ZIP completo.
+[OK] ZIP contiene manifest.json, expedientes.json, gestiones.json, construcciones.json y adjuntos.json.
+[OK] ZIP conserva fotografía y documento de prueba.
+[OK] Importación masiva restaura dos expedientes de Gestión.
+[OK] Importación restaura fotografías y documentos.
+[OK] Reimportación combina sin duplicar expedientes.
+[OK] Impresión Carta.
+[OK] Vista previa Carta.
+[OK] DOCX Carta.
 [OK] Sin pageerror JavaScript.
-[OK] Sin errores críticos de consola.
 
-AUDITORÍA DE MIGRACIÓN
-[OK] DB_NAME se mantiene como LibretaValoracionCR.
-[OK] DB_VERSION sube a 6.
-[OK] onupgradeneeded crea/actualiza índices sin borrar tiendas existentes.
-[OK] Si oldVersion > 0 y < 6, antes de completar la migración se copian cases, photos y documents a tiendas recovery* con snapshotId común.
-[OK] Las tiendas recovery existentes se conservan y se amplían con índices faltantes.
-[OK] Gestión usa los mismos registros cases y conserva workflow/history; no existe rutina de vaciado por actualización.
+SINTAXIS
+[OK] JavaScript validado con node --check.
 
-NOTA
-El entorno de prueba bloquea por política administrativa la navegación HTTP/HTTPS local, por lo que la migración IndexedDB entre orígenes publicados no pudo ejecutarse mediante un servidor local real. La lógica de migración fue auditada estáticamente y la capa de recuperación fue probada funcionalmente en navegador usando el almacenamiento temporal de la propia aplicación. Antes de publicar en producción, conserve además un ZIP de respaldo de los expedientes críticos.
+NOTA SOBRE ACTUALIZACIÓN
+V25.3 mantiene el mismo DB_VERSION 6 de V25.2.x, por lo que una actualización normal del repositorio no abre una nueva migración de esquema. La lógica heredada de migración desde versiones antiguas continúa creando respaldo recovery* antes de completar la actualización.

@@ -1,9 +1,9 @@
 {
   "id": "./fiscalizacion-bi",
-  "version": "25.2.0",
+  "version": "25.3.0",
   "name": "Fiscalización B.I.",
   "short_name": "Fiscalización B.I.",
-  "description": "Versión 25.2.0 final corregida: Construcciones/Croquis restaurado, persistencia IndexedDB segura, recuperación de expedientes/PDF/fotografías/unidades constructivas y respaldo previo a migraciones.",
+  "description": "V25.3 final: Construcciones funcional, navegación Fotografía→Fiscalización corregida, actualización IndexedDB segura, recuperación, Gestión con carga/descarga masiva ZIP+JSON, interfaz compacta e informe Carta.",
   "start_url": "./?app=fiscalizacion-bi",
   "scope": "./",
   "display": "standalone",
