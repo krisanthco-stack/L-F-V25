@@ -1,9 +1,9 @@
 {
   "id": "./fiscalizacion-bi",
-  "version": "25.0.0",
+  "version": "25.2.0",
   "name": "Fiscalización B.I.",
   "short_name": "Fiscalización B.I.",
-  "description": "Versión 25.0.0 funcional: offline-first, persistencia local, flujo Terreno → Construcciones/Croquis → Fiscalización → Gestión, y paquetes ZIP completos.",
+  "description": "Versión 25.2.0 final corregida: Construcciones/Croquis restaurado, persistencia IndexedDB segura, recuperación de expedientes/PDF/fotografías/unidades constructivas y respaldo previo a migraciones.",
   "start_url": "./?app=fiscalizacion-bi",
   "scope": "./",
   "display": "standalone",

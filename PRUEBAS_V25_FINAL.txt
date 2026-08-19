@@ -1,0 +1,40 @@
+PRUEBAS DE ACEPTACIÓN — V25.2.0 FINAL CORREGIDA
+
+VALIDACIÓN ESTRUCTURAL
+[OK] JavaScript válido con node --check.
+[OK] 8 vistas únicas: Base local, Expediente, Terreno, Construcciones, Fotografías, Fiscalización, Informe y Gestión.
+[OK] Todos los data-target del menú corresponden a una vista real.
+[OK] Sin IDs HTML duplicados.
+[OK] addConstructionBtn y constructionList existen exactamente una vez.
+[OK] manifest.webmanifest válido, versión 25.2.0.
+[OK] Todos los archivos CORE del Service Worker existen.
+[OK] No existen llamadas a indexedDB.deleteDatabase, localStorage.clear ni deleteObjectStore en la aplicación final.
+
+PRUEBA FUNCIONAL EN NAVEGADOR — 16/16
+[OK] Fallback temporal controlado si IndexedDB no está disponible.
+[OK] APP_VERSION 25.2.0-FINAL-CORREGIDA.
+[OK] 8 módulos renderizados.
+[OK] Vista Construcciones presente.
+[OK] Vista Construcciones abre.
+[OK] Agregar construcción funciona.
+[OK] Tarjeta de construcción se genera.
+[OK] Guardar expediente con construcción funciona.
+[OK] bytesToBase64 operativo.
+[OK] mergeCaseRecords operativo.
+[OK] Retirar unidad constructiva crea respaldo recuperable.
+[OK] Retirar expediente lo elimina solo de la base activa.
+[OK] Restaurar expediente recupera el registro.
+[OK] Restaurar expediente recupera fotografía y PDF.
+[OK] Sin pageerror JavaScript.
+[OK] Sin errores críticos de consola.
+
+AUDITORÍA DE MIGRACIÓN
+[OK] DB_NAME se mantiene como LibretaValoracionCR.
+[OK] DB_VERSION sube a 6.
+[OK] onupgradeneeded crea/actualiza índices sin borrar tiendas existentes.
+[OK] Si oldVersion > 0 y < 6, antes de completar la migración se copian cases, photos y documents a tiendas recovery* con snapshotId común.
+[OK] Las tiendas recovery existentes se conservan y se amplían con índices faltantes.
+[OK] Gestión usa los mismos registros cases y conserva workflow/history; no existe rutina de vaciado por actualización.
+
+NOTA
+El entorno de prueba bloquea por política administrativa la navegación HTTP/HTTPS local, por lo que la migración IndexedDB entre orígenes publicados no pudo ejecutarse mediante un servidor local real. La lógica de migración fue auditada estáticamente y la capa de recuperación fue probada funcionalmente en navegador usando el almacenamiento temporal de la propia aplicación. Antes de publicar en producción, conserve además un ZIP de respaldo de los expedientes críticos.

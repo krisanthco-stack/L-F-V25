@@ -1,0 +1,33 @@
+AUDITORÍA TÉCNICA — LIBRETA DE FISCALIZACIÓN V25.2.0 FINAL CORREGIDA
+
+1. ERROR CRÍTICO DE CONSTRUCCIONES CORREGIDO
+- V25 funcional tenía botón/nav hacia "construction" pero no existía <section id="view-construction">.
+- El JS de Construcciones sí existía, por lo que fallaba al iniciar el listener de addConstructionBtn.
+- Se restauró el módulo completo sin cambiar el modelo de datos del expediente.
+
+2. RECUPERACIÓN CORREGIDA
+- La V25 funcional llamaba mergeCaseRecords() al restaurar/importar paquetes, pero esa función no estaba definida.
+- Se incorporaron newestValue, fillEmptyDeep, mergeById y mergeCaseRecords.
+- Eliminación de expediente, PDF, fotografía, foto de anexo y unidad constructiva exige respaldo previo.
+
+3. ACTUALIZACIÓN DEL REPOSITORIO
+- Mismo DB_NAME: LibretaValoracionCR.
+- DB_VERSION: 6.
+- La migración no elimina tiendas anteriores.
+- Antes de migrar se respaldan cases, photos y documents en recoveryCases/recoveryPhotos/recoveryDocuments.
+- Gestión no usa una base separada: es el mismo expediente con etapa lógica, por lo que no se vacía al actualizar código.
+
+4. DIFERENCIAS DETECTADAS EN L-F-V25-main
+- APP_VERSION y manifest indicaban V22.05-PRUEBA-R2, no V25.
+- DB_VERSION era 2; abrir ese código sobre una base ya migrada a V5 podía producir VersionError y aparentar una base vacía al caer en memoria temporal.
+- Su Service Worker usaba caché V22.05.
+- Sí conservaba la pantalla de Construcciones, usada como referencia para restaurar el módulo.
+
+5. SERVICE WORKER / PWA
+- Caché: fiscalizacion-bi-v25.2.0-final-corregida-build-1.
+- apple-touch-icon.png está incluido.
+- .nojekyll está incluido para GitHub Pages.
+
+6. ERRORES DE EJECUCIÓN ADICIONALES CORREGIDOS
+- refreshDerived() llamaba refreshEmailSendUi() aunque la base V25 ya no incluía esa función; ahora el gancho es opcional y no detiene el arranque.
+- bytesToDataUrl() dependía de bytesToBase64() sin que existiera su definición; se incorporó la función para restauración/importación de paquetes.
