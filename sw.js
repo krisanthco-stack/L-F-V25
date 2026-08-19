@@ -1,4 +1,4 @@
-const CACHE='fiscalizacion-bi-v22.0.4-build-1';
+const CACHE='fiscalizacion-bi-v22.06-offline-first-build-1';
 const CORE=[
   './','./index.html','./manifest.webmanifest',
   './icon-192.png','./icon-512.png','./icon-maskable-192.png','./icon-maskable-512.png',
