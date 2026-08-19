@@ -1,9 +1,9 @@
 {
   "id": "./fiscalizacion-bi",
-  "version": "22.05-PRUEBA-R2",
+  "version": "22.0.4",
   "name": "Fiscalización B.I.",
   "short_name": "Fiscalización B.I.",
-  "description": "Versión 22.05 de prueba corregida, basada en V22.0.4: selecciones visibles en Servicios 1/2 y tipo de construcción, filtro agro visible y consecutivo automático de inspección de campo al firmar.",
+  "description": "Libreta de Fiscalización municipal V22 con buscador y filtros por distrito y lugar en Base local, PDF vinculados, Gestión compacta y sincronización recuperable.",
   "start_url": "./?app=fiscalizacion-bi",
   "scope": "./",
   "display": "standalone",
