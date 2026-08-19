@@ -1,4 +1,4 @@
-const CACHE='fiscalizacion-bi-v22.06.4-paquete-zip-build-1';
+const CACHE='fiscalizacion-bi-v25.0.0-build-1';
 const CORE=[
   './','./index.html','./manifest.webmanifest',
   './icon-192.png','./icon-512.png','./icon-maskable-192.png','./icon-maskable-512.png',
